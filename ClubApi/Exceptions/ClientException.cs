@@ -5,6 +5,6 @@ namespace ClubApi.Exceptions
 {
     public class ClientException : Exception
     {
-        public HttpStatusCode StatusCode { get; set; }
+        public virtual HttpStatusCode StatusCode { get; }
     }
 }
