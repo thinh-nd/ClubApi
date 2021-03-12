@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using ClubApi.Data.Repositories;
 using ClubApi.Models.Requests;
 using ClubApi.Models.Resposnes;
+using ClubApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using static ClubApi.Models.Headers;
 
@@ -11,34 +12,44 @@ namespace ClubApi.Controllers
     [ApiController]
     public class ClubsController : ControllerBase
     {
-        [HttpPost]
-        public ActionResult<ClubResponse> PostAsync(ClubRequest request)
+        private readonly IClubRepository _clubRepository;
+        private readonly IClubService _clubService;
+
+        public ClubsController(IClubRepository clubRepository, IClubService clubService)
         {
-            // validate club name
+            _clubRepository = clubRepository;
+            _clubService = clubService;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ClubResponse>> PostAsync(ClubRequest request)
+        {
             var playerId = int.Parse(Request.Headers[PlayerId]);
+            var clubDto = await _clubRepository.Create(request.Name, playerId);
             return new ClubResponse
             {
-                Id = Guid.NewGuid().ToString(),
-                Members = new List<int> { playerId }
+                Id = clubDto.Id,
+                Members = clubDto.MemberIds
             };
         }
 
         [HttpGet]
-        public ActionResult<ClubResponse> GetAsync()
+        public async Task<ActionResult<ClubResponse>> GetAsync()
         {
             var clubId = Request.Headers[ClubId];
-            // get the club info
+            var clubDto = await _clubRepository.Get(clubId);
             return new ClubResponse
             {
-                Id = clubId,
-                Members = new List<int> { 123 }
+                Id = clubDto.Id,
+                Members = clubDto.MemberIds
             };
         }
 
         [HttpPost]
         [Route("{clubId}/members")]
-        public ActionResult AddMember(string clubId, MemberRequest memberRequest)
+        public async Task<ActionResult> AddMember(string clubId, MemberRequest memberRequest)
         {
+            await _clubService.AddMember(clubId, memberRequest.PlayerId);
             return NoContent();
         }
     }
