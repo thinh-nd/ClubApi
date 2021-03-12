@@ -24,7 +24,15 @@ namespace ClubApi.Controllers
         [HttpPost]
         public async Task<ActionResult<ClubResponse>> PostAsync(ClubRequest request)
         {
-            var playerId = int.Parse(Request.Headers[PlayerId]);
+            if (string.IsNullOrEmpty(Request.Headers[PlayerId]))
+            {
+                return BadRequest("No player ID is provided.");
+            }
+            var parsed = int.TryParse(Request.Headers[PlayerId], out var playerId);
+            if (!parsed)
+            {
+                return BadRequest("No player ID is not a number.");
+            }
             var clubDto = await _clubRepository.Create(request.Name, playerId);
             return new ClubResponse
             {
@@ -37,6 +45,10 @@ namespace ClubApi.Controllers
         public async Task<ActionResult<ClubResponse>> GetAsync()
         {
             var clubId = Request.Headers[ClubId];
+            if (string.IsNullOrEmpty(clubId))
+            {
+                return BadRequest("No club ID is provided.");
+            }
             var clubDto = await _clubRepository.Get(clubId);
             return new ClubResponse
             {
