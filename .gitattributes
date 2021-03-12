@@ -1,0 +1,4 @@
+*.mmdb filter=lfs diff=lfs merge=lfs -text
+modules filter=lfs diff=lfs merge=lfs -text
+elasticsearch-7.11.1/modules/ingest-geoip/GeoLite2-City.mmdb filter=lfs diff=lfs merge=lfs -text
+elasticsearch-7.11.1/jdk/lib/modules filter=lfs diff=lfs merge=lfs -text
