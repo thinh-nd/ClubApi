@@ -18,20 +18,20 @@ namespace ClubApi.Data.Repositories
 
         public async Task Create(int playerId, Player player)
         {
-            var indexResult = await _elasticClient.IndexAsync(player, i => i.Index(IndexName.Player).Id(playerId));
-            if (!indexResult.IsValid)
+            var insertResult = await _elasticClient.IndexAsync(player, i => i.Index(IndexName.Player).Id(playerId));
+            if (!insertResult.IsValid)
             {
-                throw indexResult.OriginalException;
+                throw insertResult.OriginalException;
             }
         }
 
         public async Task<IEnumerable<PlayerDto>> List()
         {
-            var searchResult = await _elasticClient.SearchAsync<Player>(s => s
+            var listResult = await _elasticClient.SearchAsync<Player>(s => s
                 .Index(IndexName.Player)
                 .Size(Limits.QueryMaxResult));
 
-            return searchResult.Hits.Select(hit => new PlayerDto
+            return listResult.Hits.Select(hit => new PlayerDto
             {
                 Id = int.Parse(hit.Id),
                 Name = hit.Source.Name,

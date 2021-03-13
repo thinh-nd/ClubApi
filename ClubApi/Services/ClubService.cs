@@ -18,12 +18,12 @@ namespace ClubApi.Services
 
         public async Task AddMember(string clubId, int memberId)
         {
-            var countResponse = await _elasticClient.CountAsync<Club>(c => c
+            var countClubIdResult = await _elasticClient.CountAsync<Club>(c => c
                 .Index(IndexName.Club)
                 .Query(q => q.Ids(i => i.Values(clubId)))
             );
 
-            if (countResponse.Count == 0)
+            if (countClubIdResult.Count == 0)
             {
                 throw new EntityNotFoundException("clubId", clubId);
             }
@@ -34,19 +34,19 @@ namespace ClubApi.Services
             {
                 ClubId = clubId
             };
-            var updateResult = await _elasticClient.UpdateAsync<Player>(memberId, u => u
+            var updatePlayerResult = await _elasticClient.UpdateAsync<Player>(memberId, u => u
                 .Index(IndexName.Player)
                 .Doc(updatedPlayer)
             );
-            if (!updateResult.IsValid)
+            if (!updatePlayerResult.IsValid)
             {
-                if (updateResult.ServerError.Error.Type == "document_missing_exception")
+                if (updatePlayerResult.ServerError.Error.Type == "document_missing_exception")
                 {
                     throw new EntityNotFoundException("memberId", memberId.ToString());
                 }
                 else
                 {
-                    throw new Exception(updateResult.DebugInformation);
+                    throw new Exception(updatePlayerResult.DebugInformation);
                 }
             }
         }

@@ -20,11 +20,11 @@ namespace ClubApi.Data.Repositories
 
         public async Task<ClubDto> Create(string clubName, int memberId)
         {
-            var countResponse = await _elasticClient.CountAsync<Club>(c => c
+            var countClubNameResult = await _elasticClient.CountAsync<Club>(c => c
                 .Index(IndexName.Club)
                 .Query(q => q.MatchPhrase(m => m.Field(f => f.Name).Query(clubName)))
             );
-            if (countResponse.Count > 0)
+            if (countClubNameResult.Count > 0)
             {
                 throw new EntityExistedException("ClubName", clubName);
             }
@@ -37,19 +37,19 @@ namespace ClubApi.Data.Repositories
             {
                 ClubId = clubId
             };
-            var bulkResult = await _elasticClient.BulkAsync(b => b
+            var insertResult = await _elasticClient.BulkAsync(b => b
                 .Index<Club>(i => i.Index(IndexName.Club).Id(clubId).Document(club))
                 .Update<Player>(u => u.Index(IndexName.Player).Id(memberId).Doc(player))
             );
-            if (bulkResult.Errors)
+            if (insertResult.Errors)
             {
-                if (bulkResult.ItemsWithErrors.FirstOrDefault(item => item.Error.Type == "document_missing_exception") != null)
+                if (insertResult.ItemsWithErrors.FirstOrDefault(item => item.Error.Type == "document_missing_exception") != null)
                 {
                     throw new EntityNotFoundException("memberId", memberId.ToString());
                 }
                 else
                 {
-                    throw new Exception(bulkResult.DebugInformation);
+                    throw new Exception(insertResult.DebugInformation);
                 }
             }
             return new ClubDto
