@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "961e16c7-1cbb-44cb-a0f4-c1529aa8ce26",
+		"name": "Clubs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Player",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 456,\r\n  \"name\": \"Thinh\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/Players",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"Players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Players",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/Players",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"Players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Club",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Player-ID",
+						"value": "456",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"My Club\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/Clubs",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"Clubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Clubs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Club-ID",
+						"value": "8557901b-41c2-4634-84ad-3e7655e164c9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/Clubs",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"Clubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Member",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Club-ID",
+						"value": "ba235298-5bd7-49bd-928b-e77b93ec72c3",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PlayerId\": 678\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/Clubs/8557901b-41c2-4634-84ad-3e7655e164c9/members",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"Clubs",
+						"8557901b-41c2-4634-84ad-3e7655e164c9",
+						"members"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

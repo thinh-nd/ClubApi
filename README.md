@@ -3,6 +3,8 @@ Run ./elasticsearch-7.11.1/bin/elasticsearch.bin to start local storage
 Elasticsearch is config to use the default setting, which is localhost:9200
 Elasticsearch has been preconfigured to use 100MB of heap, to avoid it using too much memory
 
+If you have postman, import the Clubs.postman_collection file to have the sample requests, but make sure that the API is running at localhost:44348
+
 ### Design questions
 1. Could you please describe your ideal strategy to handle interservice communications in a microservice environment, especially when hosted in the cloud?
 - Avoid synchronous communication, such as HTTP request/response in the request chain between microservices. Instead, use asynchronous communication like message-based, event-based (AMQP) or polling to communicate between microservices. It is depends on the problem to correctly select which type of communication to be used.
