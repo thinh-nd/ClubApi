@@ -349,3 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 elasticsearch-7.11.1/data
+elasticsearch-7.11.1/logs
+elasticsearch-7.11.1/config/elasticsearch.keystore
