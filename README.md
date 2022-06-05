@@ -1,7 +1,7 @@
 ### Get started
-Run ./elasticsearch-7.11.1/bin/elasticsearch.bin to start local storage
-Elasticsearch is config to use the default setting, which is localhost:9200
-Elasticsearch has been preconfigured to use 100MB of heap, to avoid it using too much memory
+- Run ./elasticsearch-7.11.1/bin/elasticsearch.bin to start local storage
+- Elasticsearch is config to use the default setting, which is localhost:9200
+- Elasticsearch has been preconfigured to use 100MB of heap, to avoid it using too much memory
 
 If you have postman, import the Clubs.postman_collection file to have the sample requests, but make sure that the API is running at localhost:44348
 
